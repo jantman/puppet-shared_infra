@@ -115,6 +115,7 @@ class shared_infra::monitoring (
   -> mysql_database { 'grafana':
     ensure  => 'present',
     charset => 'utf8mb3',
+    collate => 'utf8mb3_general_ci',
   }
   -> mysql_user { 'grafana@%':
     ensure        => 'present',
