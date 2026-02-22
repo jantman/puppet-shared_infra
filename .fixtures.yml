@@ -1,12 +1,9 @@
 fixtures:
-  forge_modules:
-    stdlib: "puppetlabs/stdlib"
-    mysql: "puppetlabs/mysql"
-    docker:
-      repo: "puppetlabs/docker"
-      ref: "10.1.0"
-    firewall: "puppetlabs/firewall"
-    archive: "puppet/archive"
-    apt: "puppetlabs/apt"
   symlinks:
     shared_infra: "#{source_dir}"
+    stdlib: "#{source_dir}/spec/fixtures/r10k/stdlib"
+    mysql: "#{source_dir}/spec/fixtures/r10k/mysql"
+    docker: "#{source_dir}/spec/fixtures/r10k/docker"
+    firewall: "#{source_dir}/spec/fixtures/r10k/firewall"
+    archive: "#{source_dir}/spec/fixtures/r10k/archive"
+    apt: "#{source_dir}/spec/fixtures/r10k/apt"

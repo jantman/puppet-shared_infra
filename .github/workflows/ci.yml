@@ -15,11 +15,13 @@ jobs:
         with:
           ruby-version: '3.4'
       - name: Install gems
-        run: gem install puppet puppet-lint
+        run: gem install puppet puppet-lint r10k
       - name: puppet-lint
         run: puppet-lint --fail-on-warnings manifests/
       - name: puppet parser validate
         run: find manifests functions -name '*.pp' -exec puppet parser validate {} +
+      - name: r10k puppetfile check
+        run: r10k puppetfile check
 
   test:
     runs-on: ubuntu-latest
@@ -29,6 +31,8 @@ jobs:
         with:
           ruby-version: '3.4'
       - name: Install gems
-        run: gem install puppet facter rspec-puppet puppetlabs_spec_helper puppet-lint
+        run: gem install puppet facter r10k rspec-puppet puppetlabs_spec_helper puppet-lint
+      - name: Install r10k modules
+        run: r10k puppetfile install --verbose --moduledir=spec/fixtures/r10k
       - name: Run specs
         run: rake spec
