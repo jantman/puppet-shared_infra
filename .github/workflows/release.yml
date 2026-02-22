@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Find the previous tag before the current one
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || true)
+          if [ -n "$PREV_TAG" ]; then
+            echo "Generating changelog from $PREV_TAG to HEAD"
+            LOG=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)")
+          else
+            echo "No previous tag found, listing all commits"
+            LOG=$(git log --pretty=format:"- %s (%h)")
+          fi
+          # Write to file to avoid delimiter issues
+          echo "$LOG" > /tmp/changelog.md
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: /tmp/changelog.md

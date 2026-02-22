@@ -58,6 +58,17 @@ Ruby 3.4 requires explicit `require` for syslog, ostruct, and benchmark gems (ha
 
 GitHub Actions (`.github/workflows/ci.yml`) runs two jobs on Ruby 3.4: **lint** (puppet-lint + parser validate + puppetfile check) and **test** (r10k puppetfile install + rake spec).
 
+## Releasing
+
+Tags follow `vX.Y.Z` format. Pushing a tag triggers `.github/workflows/release.yml`, which generates a changelog and creates a GitHub Release.
+
+```bash
+# Update version in metadata.json, then:
+git commit -am "Release vX.Y.Z"
+git tag vX.Y.Z
+git push origin main --tags
+```
+
 ## Linting
 
 `.puppet-lint.rc` enables `--fail-on-warnings` and disables `autoloader_layout` and `parameter_order` checks.

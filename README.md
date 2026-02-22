@@ -42,3 +42,12 @@ mod 'shared_infra',
 gem install --user-install rspec-puppet puppetlabs_spec_helper puppet-lint
 rake spec
 ```
+
+## Releasing
+
+1. Update the version in `metadata.json`
+2. Commit the change: `git commit -am "Release vX.Y.Z"`
+3. Tag the commit: `git tag vX.Y.Z`
+4. Push with tags: `git push origin main --tags`
+
+The GitHub Actions [release workflow](.github/workflows/release.yml) will automatically create a GitHub Release with a changelog of commits since the previous tag.
