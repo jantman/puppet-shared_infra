@@ -1,0 +1,3 @@
+--fail-on-warnings
+--no-autoloader_layout-check
+--no-parameter_order-check

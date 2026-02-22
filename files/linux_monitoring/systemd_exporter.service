@@ -1,0 +1,28 @@
+# managed by shared_infra::linux_monitoring
+# based on https://github.com/prometheus-community/ansible/blob/main/roles/systemd_exporter/templates/systemd_exporter.service.j2
+[Unit]
+Description=Prometheus SystemD Exporter
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/bin/systemd_exporter \
+    --systemd.collector.enable-restart-count \
+    --systemd.collector.enable-ip-accounting \
+    --log.level=error
+SyslogIdentifier=systemd_exporter
+Restart=always
+RestartSec=1
+StartLimitInterval=0
+
+ProtectHome=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=yes
+
+[Install]
+WantedBy=multi-user.target
