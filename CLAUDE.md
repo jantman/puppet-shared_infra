@@ -60,14 +60,7 @@ GitHub Actions (`.github/workflows/ci.yml`) runs two jobs on Ruby 3.4: **lint** 
 
 ## Releasing
 
-Tags follow `vX.Y.Z` format. Pushing a tag triggers `.github/workflows/release.yml`, which generates a changelog and creates a GitHub Release.
-
-```bash
-# Update version in metadata.json, then:
-git commit -am "Release vX.Y.Z"
-git tag vX.Y.Z
-git push origin main --tags
-```
+Update the version in `metadata.json`, commit, and push to `main`. The release workflow (`.github/workflows/release.yml`) automatically compares the version against the latest git tag, and if it's new, creates and pushes a `vX.Y.Z` tag and a GitHub Release with a changelog.
 
 ## Linting
 

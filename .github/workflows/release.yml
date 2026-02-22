@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: ['v*']
+    branches: [main]
 
 jobs:
   release:
@@ -13,21 +13,44 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Generate changelog
-        id: changelog
+      - name: Extract version from metadata.json
+        id: version
         run: |
-          # Find the previous tag before the current one
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || true)
+          VERSION=$(jq -r '.version' metadata.json)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
+      - name: Check if release is needed
+        id: check
+        run: |
+          LATEST_TAG=$(git tag --sort=-v:refname | head -1 || true)
+          LATEST_VERSION="${LATEST_TAG#v}"
+          if [ "$LATEST_VERSION" = "${{ steps.version.outputs.version }}" ]; then
+            echo "Version ${{ steps.version.outputs.version }} already released (tag $LATEST_TAG exists)"
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New version ${{ steps.version.outputs.version }} (latest tag: ${LATEST_TAG:-none})"
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+            echo "prev_tag=$LATEST_TAG" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Generate changelog
+        if: steps.check.outputs.needed == 'true'
+        run: |
+          PREV_TAG="${{ steps.check.outputs.prev_tag }}"
           if [ -n "$PREV_TAG" ]; then
             echo "Generating changelog from $PREV_TAG to HEAD"
-            LOG=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)")
+            git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)" > /tmp/changelog.md
           else
             echo "No previous tag found, listing all commits"
-            LOG=$(git log --pretty=format:"- %s (%h)")
+            git log --pretty=format:"- %s (%h)" > /tmp/changelog.md
           fi
-          # Write to file to avoid delimiter issues
-          echo "$LOG" > /tmp/changelog.md
+      - name: Create and push tag
+        if: steps.check.outputs.needed == 'true'
+        run: |
+          git tag "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
       - name: Create GitHub Release
+        if: steps.check.outputs.needed == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.version.outputs.tag }}
           body_path: /tmp/changelog.md
