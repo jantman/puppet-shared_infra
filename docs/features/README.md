@@ -13,6 +13,7 @@ The following guidelines MUST always be followed:
   4. Open a GitHub PR to merge the feature branch to `main`. ALL GitHub Actions checks must pass before the work is complete.
 * Every feature must end with an "Acceptance Criteria" Milestone. This Milestone must include tasks to:
   1. Ensure that all appropriate documentation (`README.md`, `docs/*.md`, and `CLAUDE.md`) is updated as needed for the work done as part of the feature. Documentation should be easily readable, concise, and a match to the style, tone, and verbosity of the existing documentation.
+  2. Increment the version number in `metadata.json` using SemVer standards according to the scope of the feature.
   3. ALL tests must be passing successfully.
   4. As the last step of every feature, move the feature markdown file from `docs/features/` to `docs/features/completed/`.
 * If you become confused or unclear on how to proceed, have to make a significant decision not explicitly included in the implementation plan, or find yourself making changes and then undoing them without a clear and certain path forward, you must stop and ask for human guidance.
