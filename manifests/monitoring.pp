@@ -2,28 +2,28 @@
 class shared_infra::monitoring (
   String $docker_net,
   # Prometheus
-  String $prometheus_image,
+  String $prometheus_image = 'prom/prometheus:v2.53.2',
   String $prometheus_config_source,
   String $prometheus_external_url,
   Array[String] $prometheus_extra_params = [],
   Optional[String] $prometheus_retention = undef,
   Optional[String] $prometheus_log_level = undef,
   # Grafana
-  String $grafana_image,
-  String $grafana_renderer_image,
+  String $grafana_image = 'grafana/grafana:11.1.4',
+  String $grafana_renderer_image = 'grafana/grafana-image-renderer:3.11.3',
   String $grafana_db_password,
   Array[String] $grafana_env,
   String $grafana_net = $docker_net,
   Hash $grafana_extra_systemd_parameters = {},
   # AlertManager
-  String $alertmanager_image,
+  String $alertmanager_image = 'prom/alertmanager:v0.27.0',
   String $alertmanager_config_source,
   String $alertmanager_external_url,
   # Ping Exporter
-  String $ping_exporter_image,
+  String $ping_exporter_image = 'czerwonk/ping_exporter:v1.1.3',
   String $ping_exporter_config_source,
   # Loki
-  String $loki_image,
+  String $loki_image = 'grafana/loki:2.9.10',
   String $loki_config_source,
 ) {
 
