@@ -110,7 +110,7 @@ class shared_infra::linux_monitoring (
       ],
     }
   } else {
-    $sysexp_arch = shared_infra::promtail_arch()
+    $sysexp_arch = shared_infra::sysexp_arch()
     archive {'/tmp/systemd_exporter.tgz':
       ensure          => present,
       extract         => true,

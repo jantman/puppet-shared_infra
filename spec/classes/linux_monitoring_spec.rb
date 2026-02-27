@@ -75,6 +75,36 @@ describe 'shared_infra::linux_monitoring' do
     it { is_expected.to contain_archive('/tmp/systemd_exporter.tgz') }
   end
 
+  context 'non-Docker armv6l (Pi Zero)' do
+    let(:params) { { 'have_docker' => false } }
+    let(:pre_condition) { 'include shared_infra::base' }
+    let(:facts) do
+      non_docker_facts.merge('os' => non_docker_facts['os'].merge('architecture' => 'armv6l'))
+    end
+
+    it { is_expected.to compile }
+    it {
+      is_expected.to contain_archive('/tmp/systemd_exporter.tgz').with(
+        'source' => %r{systemd_exporter-.*\.linux-armv6\.tar\.gz$},
+      )
+    }
+  end
+
+  context 'non-Docker armv7l' do
+    let(:params) { { 'have_docker' => false } }
+    let(:pre_condition) { 'include shared_infra::base' }
+    let(:facts) do
+      non_docker_facts.merge('os' => non_docker_facts['os'].merge('architecture' => 'armv7l'))
+    end
+
+    it { is_expected.to compile }
+    it {
+      is_expected.to contain_archive('/tmp/systemd_exporter.tgz').with(
+        'source' => %r{systemd_exporter-.*\.linux-armv7\.tar\.gz$},
+      )
+    }
+  end
+
   context 'non-Docker with custom service name' do
     let(:params) do
       {
