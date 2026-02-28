@@ -55,6 +55,15 @@ class shared_infra::zoneminder (
     }
   }
 
+  # === Shared ZM API client ===
+  -> file {"${zm_base}/zm_client.py":
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/shared_infra/zm_client.py',
+  }
+
   # === ZoneMinder container ===
   $zm_base_volumes = [
     "${zm_base}/backups:/var/backups",
