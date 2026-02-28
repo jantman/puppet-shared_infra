@@ -11,6 +11,7 @@ class shared_infra::zoneminder (
   Array[String] $zm_volumes = [],
   Array[String] $zm_env = [],
   String $zm_base = '/opt/zm',
+  Boolean $manage_zm_base = true,
   Boolean $manage_firewall = false,
   Optional[String] $prometheus_host = undef,
   Array[String] $zm_base_dirs = [],
@@ -34,14 +35,24 @@ class shared_infra::zoneminder (
   }
 
   # === Directories ===
-  -> file {[
-    $zm_base, "${zm_base}/config", "${zm_base}/backups",
+  if $manage_zm_base {
+    file { $zm_base:
+      ensure  => directory,
+      owner   => 33,
+      group   => 33,
+      mode    => '0755',
+      require => Mysql_grant['zmuser@%/zm.*'],
+    }
+  }
+  file {[
+    "${zm_base}/config", "${zm_base}/backups",
     "${zm_base}/var-cache", '/var/log/docker-zm',
   ]:
-    ensure => directory,
-    owner  => 33,
-    group  => 33,
-    mode   => '0755',
+    ensure  => directory,
+    owner   => 33,
+    group   => 33,
+    mode    => '0755',
+    require => [Mysql_grant['zmuser@%/zm.*'], File[$zm_base]],
   }
 
   # Additional directories (e.g. var-cache subdirs)
