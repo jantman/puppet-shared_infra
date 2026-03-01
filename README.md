@@ -11,6 +11,7 @@ Shared Puppet infrastructure classes used by both [privatepuppet](https://github
 - `shared_infra::linux_monitoring` - node-exporter, cAdvisor, systemd-exporter
 - `shared_infra::nginx_revproxy` - Nginx reverse proxy in Docker
 - `shared_infra::monitoring` - Full monitoring stack (Prometheus, Grafana, Alertmanager, Loki, Ping Exporter)
+- `shared_infra::unifi` - UniFi Network Application controller (MongoDB, UniFi, unPoller, unifi-logs-loki)
 
 ## Functions
 
