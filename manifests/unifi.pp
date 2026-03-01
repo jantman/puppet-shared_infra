@@ -19,7 +19,7 @@ class shared_infra::unifi (
   String $unpoller_pass = 'm0n1t0r1ng',
   Boolean $unpoller_save_dpi = false,
   String $unpoller_net = 'custom',
-  String $logs_loki_image = 'ghcr.io/jantman/unifi-mongodb-logs-to-loki:v0.1.2',
+  String $logs_loki_image = 'ghcr.io/jantman/unifi-mongodb-logs-to-loki:v0.1.3',
 ) {
 
   # User and group
