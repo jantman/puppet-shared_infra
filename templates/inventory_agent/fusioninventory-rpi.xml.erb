@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <%= @config_comment %> - FusionInventory additional content for Raspberry Pi -->
+<REQUEST>
+  <CONTENT>
+    <BIOS>
+      <MMANUFACTURER>Raspberry Pi Foundation</MMANUFACTURER>
+      <MMODEL><%= scope.lookupvar('::rpi_model') %></MMODEL>
+      <MSN><%= scope.lookupvar('::rpi_serial') %></MSN>
+      <SMANUFACTURER>Raspberry Pi Foundation</SMANUFACTURER>
+      <SMODEL><%= scope.lookupvar('::rpi_model') %></SMODEL>
+      <SSN><%= scope.lookupvar('::rpi_serial') %></SSN>
+    </BIOS>
+    <HARDWARE>
+      <CHASSIS_TYPE>Board</CHASSIS_TYPE>
+      <MEMORY><%= scope.lookupvar('::rpi_memory_mb') %></MEMORY>
+      <PROCESSORN>1</PROCESSORN>
+      <PROCESSORT><%= scope.lookupvar('::processors')['models'][0] || scope.lookupvar('::rpi_model') %></PROCESSORT>
+    </HARDWARE>
+    <CPUS>
+      <ARCH><%= scope.lookupvar('::os')['architecture'] %></ARCH>
+      <CORE><%= scope.lookupvar('::processors')['count'] %></CORE>
+      <NAME><%= scope.lookupvar('::processors')['models'][0] || scope.lookupvar('::rpi_model') %></NAME>
+    </CPUS>
+    <MEMORIES>
+      <CAPACITY><%= scope.lookupvar('::rpi_memory_mb') %></CAPACITY>
+      <CAPTION>Onboard Memory</CAPTION>
+      <DESCRIPTION>System Memory</DESCRIPTION>
+      <NUMSLOTS>1</NUMSLOTS>
+      <SERIALNUMBER><%= scope.lookupvar('::rpi_serial') %></SERIALNUMBER>
+      <TYPE>RAM</TYPE>
+    </MEMORIES>
+  </CONTENT>
+</REQUEST>

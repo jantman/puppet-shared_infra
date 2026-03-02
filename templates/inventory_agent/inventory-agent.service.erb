@@ -1,0 +1,7 @@
+<%= @config_comment %>
+[Unit]
+Description=Inventory collection agent
+
+[Service]
+Type=oneshot
+ExecStart=<%= @bin_path %> -s <%= @server %><% if @is_rpi %> --additional-content /etc/fusioninventory-rpi.xml<% end %>
