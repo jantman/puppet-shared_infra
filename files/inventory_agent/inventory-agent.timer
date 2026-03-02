@@ -1,0 +1,13 @@
+# managed by shared_infra::inventory_agent
+[Unit]
+Description=Run inventory collection agent
+Requires=inventory-agent.service network.target
+After=network.target
+
+[Timer]
+# fire 60 seconds after boot, and every day after that
+OnBootSec=60
+OnUnitActiveSec=24hours
+
+[Install]
+WantedBy=timers.target
