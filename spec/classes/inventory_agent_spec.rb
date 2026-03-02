@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'shared_infra::inventory_agent' do
   let(:pre_condition) { 'include shared_infra::base' }
+  let(:params) { { 'server' => 'http://glpi.example.com:8088/' } }
 
   context 'Debian with defaults' do
     it { is_expected.to compile }
@@ -30,7 +31,7 @@ describe 'shared_infra::inventory_agent' do
   end
 
   context 'RPi mode' do
-    let(:params) { { 'is_rpi' => true } }
+    let(:params) { super().merge('is_rpi' => true) }
     let(:facts) do
       {
         'os'             => { 'family' => 'Debian', 'name' => 'Debian', 'architecture' => 'aarch64',

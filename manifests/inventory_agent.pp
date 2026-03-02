@@ -1,6 +1,7 @@
 # Manage computer inventory agent (currently FusionInventory)
+# @param server GLPI server URL, e.g. 'http://glpi.example.com:8088/'
 class shared_infra::inventory_agent (
-  String $server = 'http://glpi.jasonantman.com:8088/',
+  String $server,
   Boolean $is_rpi = false,
   String $config_comment = '# managed by shared_infra::inventory_agent',
 ) {
