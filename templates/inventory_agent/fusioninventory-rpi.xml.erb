@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- <%= @config_comment %> - FusionInventory additional content for Raspberry Pi -->
+<%- processor_models = (scope.lookupvar('::processors') || {})['models'] -%>
+<%- processor_name = (processor_models.is_a?(Array) ? processor_models[0] : nil) || scope.lookupvar('::rpi_model') -%>
+<%- processor_count = (scope.lookupvar('::processors') || {})['count'] || 1 -%>
 <REQUEST>
   <CONTENT>
     <BIOS>
@@ -14,12 +17,12 @@
       <CHASSIS_TYPE>Board</CHASSIS_TYPE>
       <MEMORY><%= scope.lookupvar('::rpi_memory_mb') %></MEMORY>
       <PROCESSORN>1</PROCESSORN>
-      <PROCESSORT><%= scope.lookupvar('::processors')['models'][0] || scope.lookupvar('::rpi_model') %></PROCESSORT>
+      <PROCESSORT><%= processor_name %></PROCESSORT>
     </HARDWARE>
     <CPUS>
       <ARCH><%= scope.lookupvar('::os')['architecture'] %></ARCH>
-      <CORE><%= scope.lookupvar('::processors')['count'] %></CORE>
-      <NAME><%= scope.lookupvar('::processors')['models'][0] || scope.lookupvar('::rpi_model') %></NAME>
+      <CORE><%= processor_count %></CORE>
+      <NAME><%= processor_name %></NAME>
     </CPUS>
     <MEMORIES>
       <CAPACITY><%= scope.lookupvar('::rpi_memory_mb') %></CAPACITY>

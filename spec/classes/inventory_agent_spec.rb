@@ -51,6 +51,27 @@ describe 'shared_infra::inventory_agent' do
     it { is_expected.to contain_file('/etc/fusioninventory-rpi.xml').with('ensure' => 'present', 'mode' => '0644') }
   end
 
+  context 'RPi mode without processors models' do
+    let(:params) { super().merge('is_rpi' => true) }
+    let(:facts) do
+      {
+        'os'             => { 'family' => 'Debian', 'name' => 'Debian', 'architecture' => 'armv7l',
+                              'release' => { 'major' => '12', 'full' => '12.0' },
+                              'distro' => { 'codename' => 'bookworm', 'id' => 'Debian' } },
+        'networking'     => { 'hostname' => 'testhost', 'ip' => '10.0.0.1' },
+        'facterversion'  => '4.5.0',
+        'kernelrelease'  => '6.1.0',
+        'rpi_model'      => 'Raspberry Pi 3 Model B Rev 1.2',
+        'rpi_serial'     => '00000000aabbccdd',
+        'rpi_memory_mb'  => 1024,
+        'processors'     => { 'count' => 4, 'isa' => 'unknown', 'physicalcount' => 1, 'speed' => '1.20 GHz' },
+      }
+    end
+
+    it { is_expected.to compile }
+    it { is_expected.to contain_file('/etc/fusioninventory-rpi.xml').with('ensure' => 'present', 'mode' => '0644') }
+  end
+
   context 'custom server' do
     let(:params) { { 'server' => 'http://glpi.example.com:9090/' } }
 
