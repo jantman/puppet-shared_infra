@@ -6,7 +6,7 @@ class shared_infra::unifi (
   String $logs_loki_url,
   String $logs_loki_log_host,
   String $docker_net = 'custom',
-  String $unifi_image_tag = '9.4.19-ls104',
+  String $unifi_image_tag = '10.1.85-ls119',
   String $mongo_image = 'mongo:7.0.12-jammy',
   Optional[String] $mongo_command = undef,
   Optional[String] $mongo_hostname = undef,
