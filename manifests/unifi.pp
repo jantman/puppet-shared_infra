@@ -14,7 +14,7 @@ class shared_infra::unifi (
   String $init_mongo_source = 'puppet:///modules/shared_infra/unifi/init-mongo.js',
   Boolean $manage_firewall = false,
   Hash $extra_systemd_parameters = {},
-  String $unpoller_image = 'ghcr.io/unpoller/unpoller:v2.11.2',
+  String $unpoller_image = 'ghcr.io/unpoller/unpoller:v2.34.0',
   String $unpoller_user = 'monitoring',
   String $unpoller_pass = 'm0n1t0r1ng',
   Boolean $unpoller_save_dpi = false,
