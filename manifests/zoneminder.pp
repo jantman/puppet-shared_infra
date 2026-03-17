@@ -15,6 +15,7 @@ class shared_infra::zoneminder (
   Boolean $manage_firewall = false,
   Optional[String] $prometheus_host = undef,
   Array[String] $zm_base_dirs = [],
+  Array[String] $zm_extra_parameters = [],
 ) {
 
   # === Database ===
@@ -103,7 +104,7 @@ class shared_infra::zoneminder (
       '--tmpfs /tmp',
       '--tmpfs /run',
       '--ipc="shareable"',
-    ],
+    ] + $zm_extra_parameters,
     env              => $zm_base_env + $zm_env,
     require          => [Docker_network[$docker_net]],
     notify           => [Service['docker-zm-exporter']],
