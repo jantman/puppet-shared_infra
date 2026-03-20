@@ -48,7 +48,7 @@ describe 'shared_infra::unifi' do
     # UniFi container
     it {
       is_expected.to contain_docker__run('unifi').with(
-        'image' => 'lscr.io/linuxserver/unifi-network-application:10.1.85-ls119',
+        'image' => 'lscr.io/linuxserver/unifi-network-application:10.1.89-ls121',
         'net'   => 'custom',
       )
     }
