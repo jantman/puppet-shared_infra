@@ -55,7 +55,8 @@ class shared_infra::promtail(
         'json' => false,
         'max_age' => '12h',
         'labels' => {
-          'job' => 'systemd-journal',
+          'job'  => 'systemd-journal',
+          'host' => $facts['networking']['hostname'],
         }
       },
       'relabel_configs' => [
