@@ -12,6 +12,7 @@ class shared_infra::promtail(
   String $promtail_version = '3.1.1',
   Optional[Array[Hash]] $additional_scrapes = undef,
   Optional[Array[String]] $additional_mounts = undef,
+  Optional[Array[String]] $additional_ports = undef,
   Boolean $manage_firewall = false,
   Optional[String] $firewall_source = undef,
   String $config_comment = '# managed by shared_infra::promtail',
@@ -125,6 +126,12 @@ class shared_infra::promtail(
       -> File['/opt/promtail']
     }
 
+    if ($additional_ports != undef) {
+      $docker_ports = ['9080:9080'] + $additional_ports
+    } else {
+      $docker_ports = ['9080:9080']
+    }
+
     File['/opt/promtail']
     -> file {'/opt/promtail/promtail.yaml':
       ensure  => present,
@@ -136,7 +143,7 @@ class shared_infra::promtail(
     }
     -> docker::run {'promtail':
       image            => "grafana/promtail:${promtail_version}",
-      ports            => ['9080:9080'],
+      ports            => $docker_ports,
       volumes          => $volumes,
       restart_service  => true,
       extra_parameters => [ '--restart=always' ],
