@@ -20,6 +20,9 @@ class shared_infra::unifi (
   Boolean $unpoller_save_dpi = false,
   String $unpoller_net = 'custom',
   String $logs_loki_image = 'ghcr.io/jantman/unifi-mongodb-logs-to-loki:v0.1.3',
+  Hash $logs_loki_extra_systemd_parameters = {
+    'Unit' => { 'StartLimitIntervalSec' => '0' },
+  },
 ) {
 
   # User and group
@@ -183,20 +186,21 @@ class shared_infra::unifi (
 
   # unifi-logs-loki container
   docker::run {'unifi-logs-loki':
-    image            => $logs_loki_image,
-    volumes          => [
+    image                    => $logs_loki_image,
+    volumes                  => [
       '/etc/localtime:/etc/localtime:ro',
       "${config_dir}/resume_token.pkl:/resume_token.pkl",
     ],
-    env              => [
+    env                      => [
       'TZ=America/New_York',
       "LOG_HOST=${logs_loki_log_host}",
       "LOKI_URL=${logs_loki_url}",
       'MONGODB_CONN_STR=mongodb://unifi-mongodb:27017/',
     ],
-    restart_service  => true,
-    extra_parameters => ['--restart=always',],
-    net              => $docker_net,
+    restart_service          => true,
+    extra_parameters         => ['--restart=always',],
+    net                      => $docker_net,
+    extra_systemd_parameters => $logs_loki_extra_systemd_parameters,
   }
 
 }
