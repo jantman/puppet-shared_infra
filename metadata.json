@@ -1,6 +1,6 @@
 {
   "name": "jantman-shared_infra",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "author": "jantman",
   "source": "https://github.com/jantman/puppet-shared_infra",
   "summary": "Shared infrastructure classes for privatepuppet and dm-puppet",

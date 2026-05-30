@@ -5,7 +5,7 @@ class shared_infra::zoneminder (
   Array[String] $zm_exporter_env,
   String $shm_size = '8192m',
   String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.1-jantman2',
-  String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.1.0',
+  String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.1.1',
   String $apache_exporter_image = 'lusotycoon/apache-exporter:v1.0.3',
   String $zoneminder_loki_image = 'ghcr.io/jantman/zoneminder-loki:v1.0.0',
   Array[String] $zm_volumes = [],
