@@ -2,28 +2,33 @@
 class shared_infra::monitoring (
   String $docker_net,
   # Prometheus
-  String $prometheus_image = 'prom/prometheus:v2.53.2',
+  String $prometheus_image = 'prom/prometheus:v3.13.0',
   String $prometheus_config_source,
   String $prometheus_external_url,
   Array[String] $prometheus_extra_params = [],
   Optional[String] $prometheus_retention = undef,
   Optional[String] $prometheus_log_level = undef,
   # Grafana
-  String $grafana_image = 'grafana/grafana:11.1.4',
-  String $grafana_renderer_image = 'grafana/grafana-image-renderer:3.11.3',
+  String $grafana_image = 'grafana/grafana:13.1.0',
+  String $grafana_renderer_image = 'grafana/grafana-image-renderer:5.9.1',
   String $grafana_db_password,
   Array[String] $grafana_env,
   String $grafana_net = $docker_net,
   Hash $grafana_extra_systemd_parameters = {},
+  # Shared secret between Grafana and the image renderer. Grafana 13 defaults
+  # image rendering to authenticated (signed) requests; when set, this is passed
+  # to the renderer as AUTH_TOKEN and must match Grafana's
+  # GF_RENDERING_RENDERER_TOKEN (set downstream via $grafana_env).
+  Optional[String] $grafana_renderer_token = undef,
   # AlertManager
-  String $alertmanager_image = 'prom/alertmanager:v0.27.0',
+  String $alertmanager_image = 'prom/alertmanager:v0.33.0',
   String $alertmanager_config_source,
   String $alertmanager_external_url,
   # Ping Exporter
-  String $ping_exporter_image = 'czerwonk/ping_exporter:v1.1.3',
+  String $ping_exporter_image = 'czerwonk/ping_exporter:v1.2.1',
   String $ping_exporter_config_source,
   # Loki
-  String $loki_image = 'grafana/loki:2.9.10',
+  String $loki_image = 'grafana/loki:3.7.3',
   String $loki_config_source,
 ) {
 
@@ -50,6 +55,12 @@ class shared_infra::monitoring (
     $prom_base_cmd + $prom_retention_cmd + $prom_console_cmd + $prom_loglevel_cmd,
     ' '
   )
+
+  # Image renderer env; add the shared auth token when configured (Grafana 13+)
+  $grafanarender_env = $grafana_renderer_token ? {
+    undef   => ['TZ=America/New_York'],
+    default => ['TZ=America/New_York', "AUTH_TOKEN=${grafana_renderer_token}"],
+  }
 
   # Config reload execs (standalone, refreshonly — not in chain)
   exec {'prom-config-reload':
@@ -143,7 +154,7 @@ class shared_infra::monitoring (
     ports            => ['8081:8081'],
     restart_service  => true,
     extra_parameters => ['--restart=always'],
-    env              => ['TZ=America/New_York'],
+    env              => $grafanarender_env,
     net              => $docker_net,
   }
 

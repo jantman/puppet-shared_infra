@@ -3,7 +3,7 @@
 class shared_infra::linux_monitoring (
   Boolean $have_docker = true,
   String $docker_net = 'custom',
-  String $cadvisor_image = 'ghcr.io/google/cadvisor:0.56.2',
+  String $cadvisor_image = 'ghcr.io/google/cadvisor:0.60.3',
   String $systemd_exporter_version = '0.7.0',
   Boolean $manage_firewall = false,
   Optional[String] $firewall_source = undef,

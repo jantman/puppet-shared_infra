@@ -5,7 +5,7 @@ class shared_infra::nginx_revproxy(
   $ports         = [443],
   $docker_host   = undef,
   $net           = 'custom',
-  $nginx_image   = 'nginx:1.27.3-alpine',
+  $nginx_image   = 'nginx:1.31.2-alpine',
   Boolean $manage_firewall = false,
 ) {
 
