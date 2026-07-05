@@ -134,6 +134,11 @@ Upgrade guides: [v12.0](https://grafana.com/docs/grafana/latest/upgrade-guide/up
 [CHANGELOG](https://github.com/grafana/grafana-image-renderer/blob/master/CHANGELOG.md) ·
 [What's new](https://grafana.com/blog/whats-new-in-the-grafana-image-renderer-higher-quality-results-security-enhancements-and-more/)
 
+> ⚠️ **Tag prefix gotcha:** `grafana/grafana-image-renderer` tags carry a `v`
+> prefix — the image is **`grafana/grafana-image-renderer:v5.9.1`**, *not* `:5.9.1`
+> (unlike `grafana/grafana:13.1.0`, which has no prefix). The un-prefixed tag 404s
+> with `manifest unknown` and the container crash-loops.
+
 ### In this module — **change already made (0.10.0)**
 `shared_infra::monitoring` now accepts an optional `$grafana_renderer_token`. When
 set, it is passed to the renderer container as `AUTH_TOKEN`. Wire it up downstream:

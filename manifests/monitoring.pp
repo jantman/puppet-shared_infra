@@ -10,7 +10,7 @@ class shared_infra::monitoring (
   Optional[String] $prometheus_log_level = undef,
   # Grafana
   String $grafana_image = 'grafana/grafana:13.1.0',
-  String $grafana_renderer_image = 'grafana/grafana-image-renderer:5.9.1',
+  String $grafana_renderer_image = 'grafana/grafana-image-renderer:v5.9.1',
   String $grafana_db_password,
   Array[String] $grafana_env,
   String $grafana_net = $docker_net,
