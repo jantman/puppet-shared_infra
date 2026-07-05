@@ -9,7 +9,7 @@ class shared_infra::promtail(
   String $docker_net = 'custom',
   Boolean $scrape_journald = true,
   Boolean $scrape_varlog = true,
-  String $promtail_version = '3.1.1',
+  String $promtail_version = '3.6.11',
   Optional[Array[Hash]] $additional_scrapes = undef,
   Optional[Array[String]] $additional_mounts = undef,
   Optional[Array[String]] $additional_ports = undef,
