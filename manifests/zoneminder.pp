@@ -51,12 +51,23 @@ class shared_infra::zoneminder (
   }
   file {[
     "${zm_base}/config", "${zm_base}/backups",
-    "${zm_base}/var-cache", '/var/log/docker-zm',
+    "${zm_base}/var-cache",
   ]:
     ensure  => directory,
     owner   => 33,
     group   => 33,
     mode    => '0755',
+    require => [Mysql_grant['zmuser@%/zm.*'], File[$zm_base]],
+  }
+  # The ZM container's entrypoint runs `chmod -R 770 /var/log/zm` on every start,
+  # and this directory is the host side of that bind mount. Managing mode here
+  # just flaps 0770 -> 0755 on every puppet run without ever converging, so the
+  # mode is left to the container. Ownership (33:33 == www-data) is what the
+  # entrypoint chowns to anyway, so managing that stays idempotent.
+  file { '/var/log/docker-zm':
+    ensure  => directory,
+    owner   => 33,
+    group   => 33,
     require => [Mysql_grant['zmuser@%/zm.*'], File[$zm_base]],
   }
 
