@@ -5,7 +5,7 @@ class shared_infra::zoneminder (
   Array[String] $zm_exporter_env,
   String $shm_size = '8192m',
   String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.3-jantman1',
-  String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.1.1',
+  String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.2.1',
   String $apache_exporter_image = 'lusotycoon/apache-exporter:v1.1.1',
   String $zoneminder_loki_image = 'ghcr.io/jantman/zoneminder-loki:v1.0.0',
   Array[String] $zm_volumes = [],
@@ -22,6 +22,10 @@ class shared_infra::zoneminder (
   mysql_database { 'zm':
     ensure  => 'present',
     charset => 'utf8mb3',
+    # Match the charset explicitly: without a collate, puppetlabs-mysql defaults to
+    # utf8_general_ci, but MariaDB 10.6+ stores/reports the utf8mb3 charset's collation
+    # as utf8mb3_general_ci -> puppet re-ALTERs the DB on every run (a no-op flap).
+    collate => 'utf8mb3_general_ci',
   }
   -> mysql_user { 'zmuser@%':
     ensure        => 'present',
