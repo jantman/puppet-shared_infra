@@ -36,7 +36,7 @@ describe 'shared_infra::unifi' do
     # MongoDB container (defaults)
     it {
       is_expected.to contain_docker__run('unifi-mongodb').with(
-        'image' => 'mongo:7.0.37-jammy',
+        'image' => 'mongo:7.0.40-jammy',
         'net'   => 'custom',
       )
     }
@@ -48,7 +48,7 @@ describe 'shared_infra::unifi' do
     # UniFi container
     it {
       is_expected.to contain_docker__run('unifi').with(
-        'image' => 'lscr.io/linuxserver/unifi-network-application:10.4.57-ls135',
+        'image' => 'lscr.io/linuxserver/unifi-network-application:10.6.101-ls143',
         'net'   => 'custom',
       )
     }
