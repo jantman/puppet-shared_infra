@@ -4,7 +4,13 @@ class shared_infra::zoneminder (
   String $loki_url,
   Array[String] $zm_exporter_env,
   String $shm_size = '8192m',
-  String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.3-jantman1',
+  # ZM 1.38.4 + zmeventnotificationNg 7 (ES 7) + pyzm 2.5.3, all upstream release
+  # artifacts. NOTE for consumers still on <= v0.10.2: this default crossed the ES 6
+  # -> ES 7 boundary. ES 7 reads YAML (objectconfig.yml, zmeventnotification.yml),
+  # NOT the ES 6 .ini files, so a consumer that relies on the image's built-in event
+  # server config and mounts none of its own gets an ES that finds no config. Pin
+  # $zm_image to '...:1.38.3-jantman1' to stay on ES 6.
+  String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.4-jantman2',
   String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.2.1',
   String $apache_exporter_image = 'lusotycoon/apache-exporter:v1.1.1',
   String $zoneminder_loki_image = 'ghcr.io/jantman/zoneminder-loki:v1.0.0',
