@@ -15,8 +15,4 @@ mod 'puppetlabs-docker',
   :git => 'https://github.com/puppetlabs/puppetlabs-docker.git',
   :ref => '6542a45b0e09b7464994343b5fd94eb565265359'
 
-# Deliberately the current release, NOT the 8.2.0 that privatepuppet pins. privatepuppet
-# holds firewall back because its gpiopi host runs puppet 7.23.0; that constraint is
-# privatepuppet's, and dm-puppet also consumes this module, so it should not be exported
-# here. These fixtures exercise the newest firewall a consumer might supply.
 mod 'puppetlabs-firewall', '8.6.0'
