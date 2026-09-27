@@ -10,7 +10,7 @@ class shared_infra::zoneminder (
   # NOT the ES 6 .ini files, so a consumer that relies on the image's built-in event
   # server config and mounts none of its own gets an ES that finds no config. Pin
   # $zm_image to '...:1.38.3-jantman1' to stay on ES 6.
-  String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.4-jantman2',
+  String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.4-jantman3',
   String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.2.1',
   String $apache_exporter_image = 'lusotycoon/apache-exporter:v1.1.1',
   String $zoneminder_loki_image = 'ghcr.io/jantman/zoneminder-loki:v1.0.0',
