@@ -78,6 +78,36 @@ describe 'shared_infra::promtail' do
     }
   end
 
+  context 'non-Docker armhf' do
+    let(:params) do
+      super().merge('use_docker' => false)
+    end
+    let(:pre_condition) { 'include shared_infra::base' }
+    let(:facts) do
+      {
+        'os'             => { 'architecture' => 'armhf', 'family' => 'Debian', 'name' => 'Debian',
+                              'release' => { 'major' => '11', 'full' => '11.8' },
+                              'distro' => { 'codename' => 'bullseye', 'id' => 'Debian' } },
+        'networking'     => { 'hostname' => 'testhost', 'ip' => '10.0.0.1' },
+        'facterversion'  => '4.5.0',
+        'kernelrelease'  => '4.9.269',
+      }
+    end
+
+    it { is_expected.to compile }
+    it {
+      is_expected.to contain_archive('promtail').with_source(
+        'https://github.com/grafana/loki/releases/download/v3.6.11/promtail-linux-arm.zip',
+      )
+    }
+    it {
+      is_expected.to contain_file('/usr/local/bin/promtail').with(
+        'ensure' => 'symlink',
+        'target' => '/usr/local/bin/promtail-linux-arm',
+      )
+    }
+  end
+
   context 'no journald or varlog scraping' do
     let(:pre_condition) { 'include docker' }
     let(:params) do
