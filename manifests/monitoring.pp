@@ -2,15 +2,15 @@
 class shared_infra::monitoring (
   String $docker_net,
   # Prometheus
-  String $prometheus_image = 'prom/prometheus:v3.13.0',
+  String $prometheus_image = 'prom/prometheus:v3.16.0',
   String $prometheus_config_source,
   String $prometheus_external_url,
   Array[String] $prometheus_extra_params = [],
   Optional[String] $prometheus_retention = undef,
   Optional[String] $prometheus_log_level = undef,
   # Grafana
-  String $grafana_image = 'grafana/grafana:13.1.0',
-  String $grafana_renderer_image = 'grafana/grafana-image-renderer:v5.9.1',
+  String $grafana_image = 'grafana/grafana:13.2.5',
+  String $grafana_renderer_image = 'grafana/grafana-image-renderer:v5.12.10',
   String $grafana_db_password,
   Array[String] $grafana_env,
   String $grafana_net = $docker_net,
@@ -21,11 +21,11 @@ class shared_infra::monitoring (
   # GF_RENDERING_RENDERER_TOKEN (set downstream via $grafana_env).
   Optional[String] $grafana_renderer_token = undef,
   # AlertManager
-  String $alertmanager_image = 'prom/alertmanager:v0.33.0',
+  String $alertmanager_image = 'prom/alertmanager:v0.34.2',
   String $alertmanager_config_source,
   String $alertmanager_external_url,
   # Ping Exporter
-  String $ping_exporter_image = 'czerwonk/ping_exporter:v1.2.1',
+  String $ping_exporter_image = 'czerwonk/ping_exporter:1.3.1',
   String $ping_exporter_config_source,
   # Loki
   String $loki_image = 'grafana/loki:3.7.3',
