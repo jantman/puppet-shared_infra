@@ -12,7 +12,7 @@ class shared_infra::zoneminder (
   # $zm_image to '...:1.38.3-jantman1' to stay on ES 6.
   String $zm_image = 'ghcr.io/jantman/docker-zoneminder:1.38.4-jantman3',
   String $zm_exporter_image = 'ghcr.io/jantman/zoneminder-prometheus-exporter:v2.2.1',
-  String $apache_exporter_image = 'lusotycoon/apache-exporter:v1.1.1',
+  String $apache_exporter_image = 'lusotycoon/apache-exporter:v1.1.3',
   String $zoneminder_loki_image = 'ghcr.io/jantman/zoneminder-loki:v1.0.0',
   Array[String] $zm_volumes = [],
   Array[String] $zm_env = [],
